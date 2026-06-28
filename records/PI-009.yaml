@@ -1,0 +1,44 @@
+id: PI-009
+type: ResearchRecord
+title: "CLAUDE.md registry/ access rule needs split into data vs config/rule files"
+date: "2026-06-28"
+state: Draft
+
+context: |
+  Simulation Round 10 (Sim 54) found that CLAUDE.md Pattern A declares registry/
+  as read-only for AI, but 5 core PKMP skills write to registry/documents.yaml and
+  registry/records.yaml. This contradiction is documented in LR-003.
+
+  Additionally, the CLAUDE.md skill trigger table is missing the
+  apply-process-improvement workflow trigger.
+
+decision: |
+  Update BOTH CLAUDE.md AND AGENTS.md (keep them in sync) with the following changes:
+
+  1. Split registry/ access rule into two rows:
+  | パターン | 場所 | AIの操作 |
+  |---|---|---|
+  | A1 — ルール・制約 | registry/lifecycles.yaml registry/workflows.yaml registry/schemas.yaml registry/capabilities.yaml registry/repository.yaml .pkmp/ CLAUDE.md AGENTS.md README.md | 読むだけ |
+  | A2 — データレジストリ | registry/documents.yaml registry/records.yaml | 登録・状態更新のみ（削除不可） |
+
+  2. Add the apply-process-improvement trigger to the skill table in both files:
+  CLAUDE.md: | 承認済みのPIレコードがある | `/pkmp:apply-process-improvement` |
+  AGENTS.md: | 承認済みのPIレコードがある | `pkmp-apply-process-improvement` |
+
+rationale: |
+  The current ambiguity causes two failure modes:
+  1. Over-restriction: AI refuses to register new artifacts because "registry/ is read-only"
+  2. Under-restriction: AI modifies lifecycle/workflow definitions thinking it's allowed
+     because "registry/documents.yaml was changed earlier in this session"
+
+  Splitting the rule makes both cases unambiguous without changing actual intended behavior.
+  Adding apply-process-improvement to the trigger table ensures AI knows when to use it.
+  CLAUDE.md and AGENTS.md must always stay in sync — both describe the same governance rules
+  for different AI tool syntaxes.
+
+provenance:
+  source: simulation
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

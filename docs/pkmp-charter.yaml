@@ -1,0 +1,71 @@
+id: pkmp-charter
+title: PKMPプロジェクト憲章
+content: |
+  # PKMPプロジェクト憲章
+
+  ## ミッション
+
+  開発活動を通じてノウハウを蓄積し、そのノウハウの再利用によって設計・製造・テストを
+  簡単かつ効率的にする自己改善ループを実現する。
+
+  ## PKMPが実現すること
+
+  ### 1. 知識の蓄積
+  AI支援開発で生まれるすべてのノウハウ（設計判断・要件・パターン・失敗知見）を
+  構造化された知識モデルとして蓄積する。
+
+  ### 2. ノウハウの再利用
+  蓄積された知識をAIが参照することで、同種の設計・製造・テスト作業を繰り返し効率化する。
+
+  ### 3. 自己改善ループ
+  実践から得た知見がPKMPのルール・テンプレート・スキーマを改善し、
+  次の開発サイクルをより効率化する循環を作る。
+
+  ## 設計原則
+
+  ### SDD非依存
+  OpenSpec等の任意のSpec-Driven Development（SDD）ツールと協働できる設計とする。
+  SDDに置き換えが生じても、PKMPの知識資産は継続して利用できる。
+
+  ### SPEC支援
+  どのSDDを使っても人間またはAIが自分で作成しなければならないSPEC（仕様書）の
+  作成をAIが支援する。SPEC作成自体をPKMPのワークフローとして定義する。
+
+  ### SDDへの補完
+  SDDが管理しない成果物（設計判断・ノウハウ記録・プロジェクト知識等）をPKMPが補完する。
+  何をPKMPが管理し何をSDDに任せるかはregistryでプロジェクトごとにカスタマイズできる。
+
+  ### レジストリを制御点に
+  `registry/`がすべてのPKMP管理対象の唯一の入口となる。
+  ファイルシステムはregistryを反映する。
+
+  ## 配布・利用モデル
+
+  PKMPはClaudeマーケットプレイスのSkillとして配布される。
+
+  - **Skillレイヤー**: PKMP固有のロジック（検証・生成・ワークフロー）をAIが実行する
+  - **データレイヤー**: プロジェクト固有の知識（`registry/`・`docs/`・`records/`等）を
+    プロジェクトリポジトリが保持する
+
+  `pkmp-init`スキルが新規プロジェクトの初期データレイヤーをセットアップする。
+
+  ## PKMPとSDDの役割分担
+
+  | 責務 | PKMP | SDD（例: OpenSpec） |
+  |---|---|---|
+  | SPEC作成支援 | ○ AIが構造化を支援 | △ ツール依存 |
+  | 実装タスク管理 | △ SDDに委譲可 | ○ |
+  | 設計判断の記録 | ○ DecisionRecord | × |
+  | ノウハウの蓄積・再利用 | ○ | × |
+  | スキーマ定義・検証 | ○ | × |
+  | 自己改善ループ | ○ | × |
+
+provenance:
+  source: conversation/pkmp-reboot-2026-06-28
+  derived_from:
+    - provenance/PKMP_DESIGN_v1.md
+    - provenance/PKMP_PROJECT_KNOWLEDGE_v1.0.md
+  authored_by:
+    role: knowledge-owner
+    identifier: human+ai-pair
+  authored_at: "2026-06-28"

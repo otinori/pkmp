@@ -1,0 +1,43 @@
+id: LR-001
+type: LearningRecord
+title: "Bootstrap-phase records must be explicitly Published after import"
+context: |
+  During simulation Round 24, we noticed DC-001 and DC-002 (created during PKMP's
+  bootstrap phase) had state: Draft in registry/records.yaml. Since spec-assist and
+  process-inbox only retrieve Published records, these two design decisions were
+  permanently invisible to the knowledge retrieval loop despite being finalized.
+  Records can remain Draft indefinitely if no workflow enforces publication.
+decision: |
+  After importing or bootstrapping records (e.g., from a design document, historical
+  decisions, or initial project setup), explicitly set their state to Published in
+  registry/records.yaml before the first spec-assist or process-inbox run.
+
+  The record lifecycle allows AI to publish records without human review:
+    Draft → Published  (actor: AI, no approval needed)
+
+  A practical checklist for bootstrap:
+  1. Create all founding records (DC, LR, etc.) from project context
+  2. Validate with pkmp-verify
+  3. Set state: Published for all records whose content is finalized
+  4. Run pkmp-regenerate
+  5. Confirm via spec-assist that records appear in Pass 1 retrieval
+rationale: |
+  Applies whenever starting a new PKMP-managed project or importing historical
+  knowledge. Prevents the silent "invisible knowledge" failure mode where records
+  exist but are excluded from the knowledge reuse loop because they were never
+  promoted from Draft.
+learning: |
+  After importing or bootstrapping records, explicitly set their state to Published
+  in registry/records.yaml. Draft records are invisible to spec-assist and
+  process-inbox, silently breaking the knowledge reuse loop.
+applicability: |
+  Any time records are created by means other than the standard capture-decision or
+  capture-learnings skills (e.g., bootstrap from design docs, historical imports,
+  manual entry). Standard skills set Published automatically; manual paths do not.
+source_change: simulation-round-24
+provenance:
+  source: simulation/round-24-draft-dc-invisible
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

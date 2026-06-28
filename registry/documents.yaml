@@ -1,0 +1,15 @@
+documents:
+  - id: pkmp-charter
+    title: PKMPプロジェクト憲章
+    schema: .pkmp/schemas/document.schema.yaml
+    state: Draft
+    canonical: docs/pkmp-charter.yaml
+    views:
+      - views/docs/pkmp-charter.md
+  - id: pkmp-design-v1
+    title: Project Knowledge Modeling Platform (PKMP) Unified Design Specification
+    schema: .pkmp/schemas/document.schema.yaml
+    state: Draft
+    canonical: docs/pkmp-design-v1.yaml
+    views:
+      - views/docs/pkmp-design-v1.md

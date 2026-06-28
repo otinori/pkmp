@@ -1,0 +1,13 @@
+capabilities:
+  - id: decision-manager
+    type: DecisionManager
+    contract: decision-manager
+    version: 1.0.0
+    provider: pkmp-builtin
+    notes: "Fallback built-in. Install UDR and update provider to 'udr' to enable DAG tracking."
+  - id: spec-deliberation
+    type: Deliberation
+    contract: spec-deliberation
+    version: 1.0.0
+    provider: pkmp-builtin
+    notes: "Fallback built-in. Install Conclave and update provider to 'conclave' for multi-persona deliberation."

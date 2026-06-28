@@ -1,0 +1,41 @@
+id: PI-003
+type: ResearchRecord
+title: "documents.schema.yaml state enum is severely incomplete — blocks spec workflow"
+context: |
+  During simulation Round 9-10, we cross-checked lifecycle state names against the
+  documents registry schema. The documents.schema.yaml state enum is [Draft, Reviewed, Published].
+  However:
+  - document lifecycle uses state "InReview" (not "Reviewed") and "Archived"
+  - spec lifecycle uses states "Reviewed", "Approved", "Implemented"
+  The mismatch means:
+  - spec-assist correctly sets state to "InReview" (per lifecycle) but pkmp-verify FAILS
+    because "InReview" is not in the enum
+  - SPECs can never reach "Approved" or "Implemented" without breaking pkmp-verify
+  - Documents can never be "Archived" without breaking pkmp-verify
+  This blocks the entire spec workflow from functioning.
+decision: |
+  Update .pkmp/schemas/registry/documents.schema.yaml state enum to include all
+  states from both document and spec lifecycles:
+
+    enum: [Draft, InReview, Reviewed, Published, Approved, Implemented, Archived]
+
+  Additionally, add an optional `lifecycle` field to distinguish which lifecycle applies:
+
+    lifecycle:
+      type: string
+      enum: [document, spec]
+rationale: |
+  Without this fix, any SPEC that progresses past Draft state will cause pkmp-verify
+  to fail, blocking all commits. The self-improvement loop cannot function if the
+  spec workflow is broken.
+implications:
+  - "applies_to: pkmp-self"
+  - "Target: .pkmp/schemas/registry/documents.schema.yaml"
+  - "Requires: human approval (schema change)"
+  - "Priority: CRITICAL — blocks spec workflow"
+provenance:
+  source: simulation/round-9-10-state-enum-gap
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

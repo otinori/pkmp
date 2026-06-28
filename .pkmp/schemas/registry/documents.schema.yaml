@@ -1,0 +1,40 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+title: PKMP Documents Registry Schema
+type: object
+required:
+  - documents
+properties:
+  documents:
+    type: array
+    items:
+      type: object
+      required:
+        - id
+        - title
+        - schema
+        - state
+        - canonical
+        - views
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        schema:
+          type: string
+        state:
+          type: string
+          enum: [Draft, InReview, Reviewed, Published, Approved, Implemented, Archived]
+        canonical:
+          type: string
+        views:
+          type: array
+          items:
+            type: string
+        lifecycle:
+          type: string
+          enum: [document, spec]
+        depends_on:
+          type: array
+          items:
+            type: string

@@ -1,0 +1,69 @@
+lifecycles:
+  - id: document
+    applies_to: Document
+    initial_state: Draft
+    states:
+      - Draft
+      - InReview
+      - Published
+      - Archived
+    transitions:
+      - from: Draft
+        to: InReview
+        actor: AI
+        condition: "内容が完成し人間レビューの準備ができた"
+      - from: InReview
+        to: Published
+        actor: Human
+        condition: "人間がレビューを承認した"
+      - from: InReview
+        to: Draft
+        actor: Human
+        condition: "修正が必要と判断された"
+      - from: Published
+        to: Archived
+        actor: Human
+        condition: "ドキュメントが陳腐化した、または後継ドキュメントが発行された"
+
+  - id: record
+    applies_to: Record
+    initial_state: Draft
+    states:
+      - Draft
+      - Published
+      - Superseded
+    transitions:
+      - from: Draft
+        to: Published
+        actor: AI
+        condition: "記録内容が確定した（レコードは人間レビュー不要）"
+      - from: Published
+        to: Superseded
+        actor: AI
+        condition: "後継レコードが作成された"
+
+  - id: spec
+    applies_to: Document
+    initial_state: Draft
+    states:
+      - Draft
+      - Reviewed
+      - Approved
+      - Implemented
+    transitions:
+      - from: Draft
+        to: Reviewed
+        actor: AI
+        condition: "SPECドラフトが完成し人間レビューに提出した"
+      - from: Reviewed
+        to: Approved
+        actor: Human
+        condition: "人間がSPECを承認した"
+      - from: Reviewed
+        to: Draft
+        actor: Human
+        condition: "修正が必要と判断された"
+      - from: Approved
+        to: Implemented
+        actor: AI
+        condition: "SDDによる実装が完了しアーカイブされた"

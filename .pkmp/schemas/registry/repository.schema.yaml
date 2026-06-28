@@ -1,0 +1,33 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+title: PKMP Repository Registry Schema
+type: object
+required:
+  - repository
+properties:
+  repository:
+    type: object
+    required:
+      - id
+      - name
+      - version
+      - owner
+      - created
+      - updated
+      - top_level
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      version:
+        type: string
+      owner:
+        type: string
+      created:
+        type: string
+      updated:
+        type: string
+      top_level:
+        type: array
+        items:
+          type: string

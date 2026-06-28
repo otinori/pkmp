@@ -1,0 +1,42 @@
+id: PI-010
+type: ResearchRecord
+title: "README.md has stale directory tree and missing installation instructions"
+date: "2026-06-28"
+state: Draft
+
+context: |
+  Simulation Round 11 (Sim 58) audited README.md for accuracy against the current
+  codebase state. Three gaps were found:
+  1. views/all-decision-records.md (old name) appears in the directory tree; the actual
+     file is views/all-records.md since Round 5 (commit 2066780)
+  2. dist/ is described as "空テンプレートのregistry" (empty template registry) but
+     dist/registry/ was populated with built-in definitions in Round 7 (commit ec35690)
+  3. No installation instructions for users wanting to adopt PKMP in their own projects
+
+decision: |
+  Update README.md with the following changes:
+  1. In the directory tree, change `all-decision-records.md` to `all-records.md`
+  2. Update dist/ description to:
+     "dist/registry/ ← 配布用ビルトイン定義（lifecycle/workflow/schema/capability）"
+  3. Add an ## インストール (Installation) section before Quick Start:
+     ```markdown
+     ## 他プロジェクトへのインストール
+     新しいリポジトリでPKMPを使うには：
+     1. このリポジトリの `.pkmp/` ディレクトリをターゲットリポジトリにコピーする
+     2. `dist/` の内容をターゲットリポジトリのルートにコピーする
+     3. Claude Code で `/pkmp:init` を実行し、プロジェクト情報を入力する
+     4. `.agent/skills/pkmp-*/` をコピーしてスキルを使えるようにする
+     ```
+  4. In the skills table, add `pkmp-apply-process-improvement` row
+
+rationale: |
+  README is the primary entry point for new users and contributors. Stale directory
+  trees and missing installation instructions create confusion. The apply-process-improvement
+  skill is listed in workflows.yaml but missing from the README skills table.
+
+provenance:
+  source: simulation
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

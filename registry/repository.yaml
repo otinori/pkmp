@@ -1,0 +1,15 @@
+repository:
+  id: pkmp-core
+  name: Project Knowledge Modeling Platform Core
+  version: 1.0.0
+  owner: Human Knowledge Owner
+  created: 2026-06-27T20:33:07+09:00
+  updated: 2026-06-28T00:00:00+09:00
+  top_level:
+    - dist/
+    - docs/
+    - records/
+    - views/
+    - registry/
+    - provenance/
+    - inbox/

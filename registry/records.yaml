@@ -1,0 +1,134 @@
+records:
+  - id: DC-001
+    type: DecisionRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Published
+    canonical: records/DC-001.yaml
+    views:
+      - views/records/DC-001.md
+  - id: DC-002
+    type: DecisionRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Published
+    canonical: records/DC-002.yaml
+    views:
+      - views/records/DC-002.md
+  - id: PI-001
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Superseded
+    canonical: records/PI-001.yaml
+    views:
+      - views/records/PI-001.md
+  - id: PI-002
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Superseded
+    canonical: records/PI-002.yaml
+    views:
+      - views/records/PI-002.md
+  - id: PI-003
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Superseded
+    canonical: records/PI-003.yaml
+    views:
+      - views/records/PI-003.md
+  - id: PI-004
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Superseded
+    canonical: records/PI-004.yaml
+    views:
+      - views/records/PI-004.md
+  - id: PI-005
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Superseded
+    canonical: records/PI-005.yaml
+    views:
+      - views/records/PI-005.md
+  - id: PI-006
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Superseded
+    canonical: records/PI-006.yaml
+    views:
+      - views/records/PI-006.md
+  - id: LR-001
+    type: LearningRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Published
+    canonical: records/LR-001.yaml
+    views:
+      - views/records/LR-001.md
+  - id: PI-007
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Superseded
+    canonical: records/PI-007.yaml
+    views:
+      - views/records/PI-007.md
+  - id: LR-002
+    type: LearningRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Published
+    canonical: records/LR-002.yaml
+    views:
+      - views/records/LR-002.md
+  - id: PI-008
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Superseded
+    canonical: records/PI-008.yaml
+    views:
+      - views/records/PI-008.md
+  - id: LR-003
+    type: LearningRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Published
+    canonical: records/LR-003.yaml
+    views:
+      - views/records/LR-003.md
+  - id: PI-009
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Draft
+    canonical: records/PI-009.yaml
+    views:
+      - views/records/PI-009.md
+  - id: PI-010
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Draft
+    canonical: records/PI-010.yaml
+    views:
+      - views/records/PI-010.md
+  - id: LR-004
+    type: LearningRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Published
+    canonical: records/LR-004.yaml
+    views:
+      - views/records/LR-004.md
+  - id: LR-005
+    type: LearningRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Published
+    canonical: records/LR-005.yaml
+    views:
+      - views/records/LR-005.md
+  - id: LR-006
+    type: LearningRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Published
+    canonical: records/LR-006.yaml
+    views:
+      - views/records/LR-006.md
+  - id: PI-011
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Draft
+    canonical: records/PI-011.yaml
+    views:
+      - views/records/PI-011.md

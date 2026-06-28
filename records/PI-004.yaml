@@ -1,0 +1,47 @@
+id: PI-004
+type: ResearchRecord
+title: "pkmp-verify fails for UDR cross-reference entries with schema: external/udr"
+context: |
+  When capture-decision is used with UDR (Path A), it creates a cross-reference entry
+  in registry/records.yaml with schema: external/udr and canonical: .udr/records/<id>.yaml.
+  The pkmp-verify validator (schema.js) attempts to:
+  1. Load the canonical file (.udr/records/<id>.yaml) — succeeds (UDR creates this)
+  2. Load the schema file (external/udr) — FAILS: "Schema file not found: external/udr"
+
+  Additionally, even if the schema existed, UDR's YAML format is different from PKMP's
+  record schema, so validation would fail anyway.
+
+  Result: every UDR decision captured via Path A causes pkmp-verify to fail, blocking
+  commits for projects that use UDR.
+decision: |
+  Two-part fix:
+
+  Part 1 — Validator update (.pkmp/lib/validators/schema.js):
+  Skip schema validation when the registry entry's `schema` field starts with "external/".
+  Add a comment to the output: "[SKIP] external/udr — external schema, validation skipped."
+
+  Part 2 — Validator update: Also skip canonical file validation when schema is external,
+  since the canonical format (UDR YAML) is not governed by PKMP's schema system.
+
+  Code change:
+    // In validateAllSchemas, records loop:
+    if (rec.schema.startsWith('external/')) {
+      // Skip validation for externally managed records
+      return;
+    }
+rationale: |
+  Projects using UDR for decision management need pkmp-verify to pass so they can commit.
+  External records should be trusted as valid by the external tool that owns them.
+  This is consistent with how cross-references work: PKMP records their existence,
+  the external tool ensures their correctness.
+implications:
+  - "applies_to: pkmp-self"
+  - "Target: .pkmp/lib/validators/schema.js"
+  - "Requires: human approval (code change in .pkmp/)"
+  - "Priority: HIGH — blocks UDR integration"
+provenance:
+  source: simulation/round-16-udr-verify-gap
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

@@ -1,0 +1,54 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+title: PKMP Capability Model Schema
+type: object
+required:
+  - id
+  - type
+  - version
+  - provenance
+properties:
+  id:
+    type: string
+  type:
+    type: string
+    enum: [Renderer, Validator, Extractor, Installer, Generator]
+  version:
+    type: string
+  contract:
+    type: string
+  implementation:
+    type: string
+  provenance:
+    type: object
+    required:
+      - source
+      - authored_by
+      - authored_at
+    properties:
+      source:
+        type: string
+      derived_from:
+        type: array
+        items:
+          type: string
+      authored_by:
+        type: object
+        required:
+          - role
+          - identifier
+        properties:
+          role:
+            type: string
+            enum: [chief-architect, knowledge-owner, implementation-agent, extractor]
+          identifier:
+            type: string
+      authored_at:
+        type: string
+      reviewed_at:
+        type: string
+      reviewed_by:
+        type: string
+      published_at:
+        type: string
+      published_by:
+        type: string

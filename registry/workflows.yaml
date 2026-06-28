@@ -1,0 +1,89 @@
+workflows:
+  - id: process-inbox
+    trigger: "inbox/配下にファイルが存在する"
+    trigger_actor: Human
+    description: "人間が inbox/ に置いたファイル（要件・レビュー結果・承認等）を処理し、PKMPモデルに変換する"
+    steps:
+      - "inbox/ 配下のファイルをすべて読む"
+      - "ファイルの種別を判断する（要件定義 / レビュー結果 / 設計判断 / その他）"
+      - "必要なアーティファクト型を決定する（Document / Record / Spec）"
+      - "要件定義→Specの場合: registry/records.yaml から関連する Published レコードを検索し制約・先行判断を抽出する（ループ再利用ステップ）"
+      - "YAML canonical ファイルを docs/ または records/ に作成または更新する（Specには抽出した制約を含める）"
+      - "registry/documents.yaml または registry/records.yaml に登録する"
+      - "pkmp regenerate を実行して Markdown ビューを生成する"
+      - "処理済みファイルを inbox/processed/ に移動する"
+
+  - id: spec-assist
+    trigger: "新機能・変更の実装をSDDで開始する前"
+    trigger_actor: Human
+    description: "SDD作業を開始する前に、AIがSPEC文書の作成を支援する。どのSDDを使っても必要になるSPEC作成を標準化する"
+    steps:
+      - "registry/records.yaml を読み、Published な LearningRecord / DecisionRecord から今回のトピックに関連する知識を抽出する（ループ再利用ステップ）"
+      - "inbox/ または会話コンテキストから要件を読む"
+      - "過去知識を制約・前提としてSPEC文書の構造に組み込む（Constraints / Open Questions）"
+      - "SPEC YAMLファイルを docs/ に作成する（lifecycle: spec / state: Draft）"
+      - "registry/documents.yaml に登録する"
+      - "pkmp regenerate を実行して Markdown ビューを生成する"
+      - "人間にレビューを依頼し state を Reviewed に更新する（Spec ライフサイクルでは InReview ではなく Reviewed）"
+
+  - id: capture-decision
+    trigger: "実装・設計中に技術的・アーキテクチャ的判断が行われた"
+    trigger_actor: AI
+    description: "開発中に生まれた設計判断を DecisionRecord として永続化する。判断の文脈・根拠・却下した代替案を記録し再利用可能にする"
+    steps:
+      - "判断の内容・文脈・根拠・検討した代替案を整理する"
+      - "DecisionRecord YAML を records/ に作成する（type: DecisionRecord / state: Draft）"
+      - "registry/records.yaml に登録する"
+      - "pkmp regenerate を実行して Markdown ビューを生成する"
+      - "state を Published に更新する"
+
+  - id: capture-learnings
+    trigger: "SDDのChangeがアーカイブされた、またはマイルストーンに到達した"
+    trigger_actor: AI
+    description: "実装完了後に得られたノウハウ・パターン・改善点を知識として蓄積する。これがPKMP自己改善ループの中心的なアクティビティ"
+    steps:
+      - "SDDのChangeアーティファクト（proposal / design / tasks）を読む"
+      - "再利用可能なパターン・判断・失敗知見を抽出する"
+      - "新しい知識は Record として records/LR-NNN.yaml に作成する（type: LearningRecord）"
+      - "既存ドキュメントへの反映が必要な場合は docs/ を更新する"
+      - "PKMPワークフロー・スキーマ自体への改善提案は records/PI-NNN.yaml として永続化する（会話で報告するだけでなくファイルに残す）"
+      - "registry に新規アーティファクトを登録する"
+      - "pkmp regenerate を実行して Markdown ビューを生成する"
+
+  - id: pkmp-verify
+    trigger: "コミット前、またはAI・人間からの要求時"
+    trigger_actor: AI
+    description: "すべてのYAML canonicalファイルのスキーマ検証とレジストリ整合性チェックを実行する"
+    steps:
+      - "registry に登録されたすべての canonical ファイルをスキーマで検証する"
+      - "registry に登録されたファイルがディスク上に存在するか確認する"
+      - "エラーがある場合は詳細を報告する"
+      - "エラーがある場合はコミットをブロックする"
+
+  - id: apply-process-improvement
+    trigger: "人間が PI レコードの decision を承認した"
+    trigger_actor: Human
+    description: "承認済み PI レコードが提案する PKMP 設定変更を適用する。PI レコード自身を Superseded に更新して完了を記録する"
+    steps:
+      - "承認された PI レコード（records/PI-NNN.yaml）を読む"
+      - "decision フィールドが提案する変更対象ファイルを特定する（workflow, lifecycle, schema, コード）"
+      - "変更を適用する（.pkmp/ 配下の変更を含む）"
+      - "pkmp-verify を実行して回帰がないことを確認する"
+      - "registry/records.yaml の PI レコードの state を Superseded に更新する"
+      - "pkmp-regenerate を実行する"
+      - "変更内容と PI レコード ID を参照したコミットを作成する"
+
+  - id: simulate
+    trigger: "PKMP スキル・コード・ドキュメントの品質向上を自律的に進めたいとき"
+    trigger_actor: AI
+    description: "PKMP 自己改善ループをシナリオ駆動でシミュレーションし、スキル・コード・ドキュメントのギャップを発見・修正する。ループエンジニアリング的にラウンドを重ねて品質を高める"
+    steps:
+      - "シナリオカタログから未検証または変更後のシナリオを1つ選ぶ"
+      - "対象スキルの SKILL.md をステップごとにトレースし、実際のファイル・コード・スキーマと照合する"
+      - "発見したギャップを PI（プロセス改善）または LR（学習記録）として分類する"
+      - "直接修正可能なもの（パス誤記・ラベル重複・コードと文書の乖離）はその場で修正する"
+      - "pkmp-verify でエラーがないことを確認する"
+      - "pkmp-regenerate を実行する"
+      - "今ラウンドの知見を LR レコードとして登録する"
+      - "sim(round-N): <要約> 形式でコミットする"
+      - "3 ラウンド連続で新規 PI・LR ゼロなら停止する"

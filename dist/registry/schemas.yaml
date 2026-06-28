@@ -1,0 +1,31 @@
+schemas:
+  - id: document
+    path: .pkmp/schemas/document.schema.yaml
+    target_type: Document
+  - id: record
+    path: .pkmp/schemas/record.schema.yaml
+    target_type: Record
+  - id: capability
+    path: .pkmp/schemas/capability.schema.yaml
+    target_type: Capability
+  - id: registry/repository
+    path: .pkmp/schemas/registry/repository.schema.yaml
+    target_type: Registry
+  - id: registry/documents
+    path: .pkmp/schemas/registry/documents.schema.yaml
+    target_type: Registry
+  - id: registry/records
+    path: .pkmp/schemas/registry/records.schema.yaml
+    target_type: Registry
+  - id: registry/capabilities
+    path: .pkmp/schemas/registry/capabilities.schema.yaml
+    target_type: Registry
+  - id: registry/schemas
+    path: .pkmp/schemas/registry/schemas.schema.yaml
+    target_type: Registry
+  - id: registry/lifecycles
+    path: .pkmp/schemas/registry/lifecycles.schema.yaml
+    target_type: Registry
+  - id: registry/workflows
+    path: .pkmp/schemas/registry/workflows.schema.yaml
+    target_type: Registry

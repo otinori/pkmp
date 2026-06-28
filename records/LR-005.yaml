@@ -1,0 +1,48 @@
+id: LR-005
+type: LearningRecord
+title: "Record views must read state from registry, not from canonical YAML state field"
+date: "2026-06-28"
+state: Published
+
+context: |
+  Simulation Round 15 traced what happens when apply-process-improvement marks a PI
+  record as Superseded in the registry but the canonical YAML still has state: Draft.
+  The canonical YAML state field is optional and can go out of sync with the registry
+  during state transitions. Individual record views were not showing state at all,
+  making it impossible to determine a record's lifecycle state from its view alone.
+
+learning: |
+  Registry is the single source of truth for artifact state. Two consequences:
+
+  1. Individual record views must read state from the registry entry, NOT from
+     the canonical YAML's state field. The renderer (renderRecord) must receive
+     registryState from the caller (pkmp.js regenerate loop), not from the model.
+
+  2. The canonical YAML state field is optional and informational. When present,
+     it can become stale after state transitions (e.g., Draft → Superseded). The
+     apply-process-improvement skill must update the canonical YAML state field if
+     present, to keep canonical and registry consistent.
+
+  Fixed in Sim Round 15:
+  - renderRecord now accepts registryState parameter and shows it in Metadata table
+  - renderModelFile passes registryState through from pkmp.js
+  - apply-process-improvement SKILL.md documents the dual-update requirement
+  - spec-assist SKILL.md duplicate step label (two "e.") fixed to e./f./g.
+
+applicability: |
+  When building renderers for PKMP artifacts: always pass state from the registry
+  entry rather than reading it from the model/canonical file. The canonical file is
+  for content; the registry entry is for state.
+
+  When writing skills that transition state: update BOTH the registry entry AND
+  the canonical YAML's state field (if present). Leaving only one updated creates
+  misleading artifacts.
+
+source_change: simulation-round-15
+
+provenance:
+  source: simulation
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

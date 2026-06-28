@@ -1,0 +1,33 @@
+capabilities:
+  - id: renderer.markdown
+    type: Renderer
+    contract: renderer.markdown
+    version: 1.0.0
+    implementation: .pkmp/lib/renderers/markdown.js
+  - id: validator.schema
+    type: Validator
+    contract: validator.schema
+    version: 1.0.0
+    implementation: .pkmp/lib/validators/schema.js
+  - id: validator.registry
+    type: Validator
+    contract: validator.registry
+    version: 1.0.0
+    implementation: .pkmp/lib/validators/registry.js
+  - id: pkmp-cli
+    type: Generator
+    contract: pkmp-cli
+    version: 1.0.0
+    implementation: .pkmp/bin/pkmp.js
+  - id: decision-manager
+    type: DecisionManager
+    contract: decision-manager
+    version: 1.0.0
+    provider: udr
+    notes: "UDR (Universal Decision Record) — https://github.com/otinori/UDR. Fallback: pkmp-builtin"
+  - id: spec-deliberation
+    type: Deliberation
+    contract: spec-deliberation
+    version: 1.0.0
+    provider: conclave
+    notes: "Conclave multi-persona deliberation — https://github.com/otinori/conclave. Fallback: pkmp-builtin"

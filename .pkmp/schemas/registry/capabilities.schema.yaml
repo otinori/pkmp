@@ -1,0 +1,30 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+title: PKMP Capabilities Registry Schema
+type: object
+required:
+  - capabilities
+properties:
+  capabilities:
+    type: array
+    items:
+      type: object
+      required:
+        - id
+        - type
+        - contract
+        - version
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        contract:
+          type: string
+        version:
+          type: string
+        implementation:
+          type: string
+        provider:
+          type: string
+        notes:
+          type: string

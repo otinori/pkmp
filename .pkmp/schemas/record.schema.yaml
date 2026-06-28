@@ -1,0 +1,99 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+title: PKMP Record Model Schema
+type: object
+required:
+  - id
+  - type
+  - title
+  - context
+  - provenance
+if:
+  properties:
+    type:
+      const: DecisionRecord
+then:
+  required:
+    - decision
+    - rationale
+properties:
+  id:
+    type: string
+  type:
+    type: string
+    enum: [DecisionRecord, LearningRecord, ResearchRecord, ExperimentRecord, BenchmarkRecord, MeetingRecord, InvestigationRecord, PoCRecord]
+  title:
+    type: string
+  context:
+    type: string
+  decision:
+    type: string
+  rationale:
+    type: string
+  implications:
+    type: array
+    items:
+      type: string
+  rejected_alternatives:
+    type: array
+    items:
+      type: object
+      required:
+        - id
+        - name
+        - reason
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        reason:
+          type: string
+  learning:
+    type: string
+  applicability:
+    type: string
+  source_change:
+    type: string
+  date:
+    type: string
+  state:
+    type: string
+    enum: [Draft, Published, Superseded]
+  review_trigger:
+    type: array
+    items:
+      type: string
+  provenance:
+    type: object
+    required:
+      - source
+      - authored_by
+      - authored_at
+    properties:
+      source:
+        type: string
+      derived_from:
+        type: array
+        items:
+          type: string
+      authored_by:
+        type: object
+        required:
+          - role
+          - identifier
+        properties:
+          role:
+            type: string
+            enum: [chief-architect, knowledge-owner, implementation-agent, extractor]
+          identifier:
+            type: string
+      authored_at:
+        type: string
+      reviewed_at:
+        type: string
+      reviewed_by:
+        type: string
+      published_at:
+        type: string
+      published_by:
+        type: string

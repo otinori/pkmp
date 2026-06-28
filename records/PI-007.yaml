@@ -1,0 +1,47 @@
+id: PI-007
+type: ResearchRecord
+title: "pkmp-verify should detect invalid state transitions and actor violations"
+context: |
+  Simulation Round 35 tested state management enforcement in pkmp-verify.
+  Currently pkmp-verify validates YAML schema correctness and file existence,
+  but does NOT check:
+  1. Whether state transitions follow the lifecycle rules (e.g., Draft → Approved
+     skipping InReview/Reviewed is invalid for documents)
+  2. Whether the Actor rule is respected (AI cannot set Documents to Published;
+     only Human can)
+
+  An AI could set registry state to Published for a Document without human review
+  and pkmp-verify would not catch this, violating the governance model.
+decision: |
+  Add a third validation phase to pkmp-verify: "Lifecycle Validation"
+
+  For each registry entry with a state field:
+  1. Look up the applicable lifecycle in registry/lifecycles.yaml using the entry type
+     (Document vs Record, document vs spec lifecycle based on lifecycle field if present)
+  2. Verify the state is a valid state in that lifecycle (already partially done by schema enum)
+  3. If a `previous_state` metadata field is available, verify the transition is allowed
+     and the correct actor performed it
+
+  For Actor rule enforcement specifically:
+  - Track which state transitions require Human actor
+  - When generating PKMP state updates, AI skills should log the actor in a
+    provenance field (e.g., provenance.state_changed_by)
+  - pkmp-verify checks that Human-only transitions have provenance.state_changed_by: Human
+
+  Note: Full implementation requires tracking state history, which may be complex.
+  A simpler starting point: warn when Document state is Published or Approved
+  without a reviewed_by or reviewed_at field in provenance.
+rationale: |
+  The governance model (Human-only for Published/Approved) is currently enforced
+  by convention only. A systematic check reduces risk of accidental governance violations.
+implications:
+  - "applies_to: pkmp-self"
+  - "Target: .pkmp/lib/validators/ (new lifecycle.js validator)"
+  - "Requires: human approval (code change in .pkmp/)"
+  - "Priority: MEDIUM — governance risk but not a blocker"
+provenance:
+  source: simulation/round-35-state-transition-validation
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

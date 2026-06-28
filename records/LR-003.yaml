@@ -1,0 +1,46 @@
+id: LR-003
+type: LearningRecord
+title: "CLAUDE.md registry/ access rule conflates files with different write permissions"
+date: "2026-06-28"
+state: Published
+
+context: |
+  CLAUDE.md Pattern A defines `registry/` as "読むだけ" (read-only for AI). However,
+  every core PKMP skill (spec-assist, capture-decision, capture-learnings,
+  process-inbox, apply-process-improvement) writes to registry/documents.yaml and
+  registry/records.yaml as part of normal operation. This creates a visible
+  contradiction between the declared access rule and the actual behavior required
+  by the workflows.
+
+learning: |
+  The registry/ directory contains two different categories of files with different
+  access modes:
+  1. DATA registries (AI write-append allowed):
+     - registry/documents.yaml — AI adds new SPEC/document entries
+     - registry/records.yaml — AI adds new records, updates state
+  2. RULE/CONFIG files (AI read-only):
+     - registry/lifecycles.yaml — structural definitions; human approval required to change
+     - registry/workflows.yaml — workflow definitions; human approval required to change
+     - registry/schemas.yaml — schema catalog; human approval required to change
+     - registry/capabilities.yaml — tool configuration; human approval required to change
+     - registry/repository.yaml — project metadata; human sets this up
+
+  Grouping all registry/ files under "read-only" in CLAUDE.md misleads AI agents
+  about whether they're allowed to register new artifacts.
+
+applicability: |
+  When writing or updating CLAUDE.md for a PKMP project: split the access rule
+  for registry/ into two rows — one for data registries (documents.yaml,
+  records.yaml) with "append/update" permission, and one for config/rule files
+  (lifecycles.yaml, workflows.yaml, schemas.yaml, capabilities.yaml, repository.yaml)
+  as "read-only". This removes the ambiguity that could cause an AI to either
+  refuse to register artifacts OR mistakenly modify lifecycle/workflow definitions.
+
+source_change: simulation-round-10
+
+provenance:
+  source: simulation
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

@@ -1,0 +1,42 @@
+id: DC-002
+type: DecisionRecord
+title: Knowledge Extractor Capability Deferral
+context: Handover Part 4 で Knowledge Extractor (Conversation → Knowledge
+  Candidate を決定的に行う Capability) が提案されたが「正式採用は保留」とされた。本設計書 §10.2 で Compilation を
+  AI-driven プロセスとして明示しており、現時点で Extractor の 具体的な実装ニーズは存在しない。
+decision: >-
+  short_term:
+    Knowledge Extractor を Capability 語彙に正式追加しない。概念は §10.3 に記録し、`extractor.knowledge` という識別子は予約するが Registry には登録しない。
+  long_term:
+    Conversation Compilation が実用上の bottleneck になった時、または concrete implementation が提案された時に再評価する。
+rationale: >-
+  - "Final Directive #3 (Prefer extending the model over creating new concepts)
+  に整合する: 実装ニーズがない段階で語彙を増やさない"
+
+  - 現在の AI-driven Compilation (§10.2) で実用上の支障がない
+
+  - Capability 契約の形を実装なしに決めると Decision-11 (CLI による発明) のリスクが高まる
+implications:
+  - CLI は Knowledge Extractor 的な動作を一切実装しない (§14.4 ルール 2)
+  - 識別子 `extractor.knowledge` は予約済み; CLI は他用途で使用してはならない
+  - provenance/ には過去 Session の transcript を任意で含められるが、自動処理の入力としては扱われない
+  - 将来 Knowledge Extractor が ratify された際の provenance schema 互換性は §10.4 Level 2
+    で既に確保済み
+rejected_alternatives:
+  - id: alt-a
+    name: Knowledge Extractor を Capability 語彙に正式追加 (Option A)
+    reason: "実装ニーズがない段階での語彙拡張は Final Directive #3 違反; CLI による未認可挙動のリスク"
+  - id: alt-b
+    name: Knowledge Extractor を完全に却下 (Option C)
+    reason: §9.4 Exchangeability Principle に反する; 将来の need が顕在化した際に再構築コストが大きい
+review_trigger:
+  - Conversation Compilation が AI-driven path で bottleneck になった時
+  - Concrete Knowledge Extractor 実装が提案された時
+  - Conversation 以外の extraction ニーズが生じた時
+provenance:
+  source: provenance/PKMP_DESIGN_v1.md
+  derived_from: []
+  authored_by:
+    role: chief-architect
+    identifier: Gemini 3.5 Flash (Medium)
+  authored_at: 2026-06-27T20:33:07+09:00

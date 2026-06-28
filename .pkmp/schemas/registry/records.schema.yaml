@@ -1,0 +1,37 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+title: PKMP Records Registry Schema
+type: object
+required:
+  - records
+properties:
+  records:
+    type: array
+    items:
+      type: object
+      required:
+        - id
+        - type
+        - schema
+        - state
+        - canonical
+        - views
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        schema:
+          type: string
+        state:
+          type: string
+          enum: [Draft, Reviewed, Published, Superseded]
+        canonical:
+          type: string
+        views:
+          type: array
+          items:
+            type: string
+        immutable:
+          type: boolean
+        supersedes:
+          type: string

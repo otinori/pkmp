@@ -1,0 +1,43 @@
+id: PI-006
+type: ResearchRecord
+title: "regenerate writes .md files into external tool directories when views: [] is set"
+context: |
+  During simulation Round 23, we traced what happens when pkmp-regenerate encounters
+  a registry entry with views: [] (empty). This pattern is used for UDR cross-reference
+  entries (capture-decision Path A).
+
+  The regenerate function:
+    const viewPath = rec.views[0] ? path.join(workspaceRoot, rec.views[0]) : null;
+    renderModelFile(yamlPath, viewPath);
+
+  Inside renderModelFile:
+    const mdFilePath = viewFilePath || yamlFilePath.replace(/\.yaml$/, '.md');
+
+  For a UDR record with canonical: .udr/records/UDR-xxx.yaml and views: [],
+  this creates .udr/records/UDR-xxx.md — a file inside the UDR-managed directory.
+  This is an unintended side effect that could corrupt UDR's directory structure.
+decision: |
+  Fix in .pkmp/bin/pkmp.js (or .pkmp/lib/renderers/markdown.js):
+  Before calling renderModelFile, check if the views array is empty:
+
+    if (!rec.views || rec.views.length === 0) {
+      console.log(`  [SKIP] ${rec.canonical} (no views defined)`);
+      continue; // or return early
+    }
+
+  This prevents regenerate from writing into external tool directories.
+rationale: |
+  External cross-references (UDR, Conclave) manage their own files. PKMP should
+  only render views into its own views/ directory. An empty views: [] is a signal
+  that PKMP should not generate any view for this entry.
+implications:
+  - "applies_to: pkmp-self"
+  - "Target: .pkmp/bin/pkmp.js (runRegenerate function)"
+  - "Requires: human approval (code change in .pkmp/)"
+  - "Priority: HIGH — could silently corrupt .udr/ or .conclave/ directories"
+provenance:
+  source: simulation/round-23-regenerate-external-write
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

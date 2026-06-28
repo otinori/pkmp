@@ -1,0 +1,36 @@
+id: PI-011
+type: ResearchRecord
+title: "CLAUDE.md and AGENTS.md need pkmp-simulate added to skill trigger table"
+date: "2026-06-28"
+state: Draft
+
+context: |
+  pkmp-simulate skill was created to enable loop-engineering simulation testing.
+  The skill is registered in registry/workflows.yaml and has a SKILL.md under
+  .agent/skills/pkmp-simulate/. However, CLAUDE.md and AGENTS.md (Pattern A —
+  read-only for AI) still lack the trigger entry for this skill.
+  Without it, AI agents will not know when/how to invoke the simulation skill.
+
+decision: |
+  Add the following row to the skill trigger table in BOTH CLAUDE.md AND AGENTS.md:
+
+  CLAUDE.md (Japanese table):
+  | PKMPスキル・コードの品質向上を自律的に進めたいとき | `/pkmp:simulate` |
+
+  AGENTS.md (Japanese table, using tool-call syntax):
+  | PKMPスキル・コードの品質向上を自律的に進めたいとき | `pkmp-simulate` |
+
+  Add after the existing `apply-process-improvement` row in each file.
+
+rationale: |
+  The trigger table in CLAUDE.md/AGENTS.md is the only mechanism connecting
+  "AI recognizes a situation" to "AI invokes the right skill" (see LR-004).
+  Without this entry, the simulate skill exists but is invisible to agent-driven
+  workflows.
+
+provenance:
+  source: simulation
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

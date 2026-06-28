@@ -1,0 +1,32 @@
+id: PI-001
+type: ResearchRecord
+title: "Apply-process-improvement workflow is missing"
+context: |
+  During simulation Round 5, we traced the lifecycle of a PI record from creation
+  (capture-learnings Step 7) through human approval (e.g., human says "承認").
+  After approval, there is no defined workflow, no skill, and no documented steps
+  for the AI to actually apply the proposed PKMP configuration change.
+  PI records accumulate in registry/records.yaml but have no structured action path.
+decision: |
+  Add an `apply-process-improvement` workflow to registry/workflows.yaml that
+  defines the steps for acting on an approved PI record:
+  1. Read the PI record's `decision` field to identify the proposed change
+  2. Read the target PKMP config file (workflow, lifecycle, or schema)
+  3. Apply the change
+  4. Run pkmp-verify to confirm no regressions
+  5. Update the PI record's registry state to Superseded (consumed)
+  6. Commit with a message referencing the PI record id
+rationale: |
+  Without this workflow, the self-improvement loop is incomplete:
+  suggestions are captured but never systematically applied.
+  An explicit workflow ensures consistent, traceable application of improvements.
+implications:
+  - "applies_to: pkmp-self"
+  - "Requires: human approval before applying any change to PKMP configuration"
+  - "PI records should transition to Superseded once applied to avoid re-applying"
+provenance:
+  source: simulation/round-5-pi-workflow-gap
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"

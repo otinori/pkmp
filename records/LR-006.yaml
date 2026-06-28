@@ -1,0 +1,45 @@
+id: LR-006
+type: LearningRecord
+title: "pkmp-init must instruct users to add trigger table to CLAUDE.md/AGENTS.md"
+date: "2026-06-28"
+state: Published
+
+context: |
+  Simulation Round 16 traced a new-project adoption scenario using pkmp-init.
+  The skill creates all registry files and verifies the structure, but its
+  Next Steps section did not mention adding the PKMP skill trigger table to
+  CLAUDE.md or AGENTS.md. Without this step, AI agents in the new project have
+  no signal to invoke PKMP skills after SDD events (this dependency is already
+  documented in LR-004).
+
+learning: |
+  pkmp-init is the entry point for all new PKMP adopters. If the trigger table
+  is not added to CLAUDE.md/AGENTS.md, the self-improvement loop is broken from
+  day one — silently, because PKMP tools still function when invoked manually.
+
+  The adoption failure mode:
+  1. Developer runs /pkmp:init → structure created, verify passes
+  2. Developer starts SDD work, archives a change
+  3. AI agent has no trigger, skips capture-learnings
+  4. Knowledge base stays empty, PKMP value is never realized
+
+  Fixed: pkmp-init Next Steps now explicitly lists the trigger table and
+  explains that without it the loop won't fire. The trigger table is shown
+  verbatim so the human can copy it into their CLAUDE.md.
+
+applicability: |
+  Any tool that initializes or bootstraps a workflow system must also
+  surface the "connect it to the agent" step. Functional setup is not
+  sufficient if the agent can't discover when to use the tools.
+
+  When reviewing PKMP adoption in other projects: confirm the trigger table
+  is present in CLAUDE.md/AGENTS.md as the first diagnostic step.
+
+source_change: simulation-round-16
+
+provenance:
+  source: simulation
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-06-28T00:00:00Z"
