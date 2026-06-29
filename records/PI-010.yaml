@@ -2,7 +2,7 @@ id: PI-010
 type: ResearchRecord
 title: "README.md has stale directory tree and missing installation instructions"
 date: "2026-06-28"
-state: Draft
+state: Superseded
 
 context: |
   Simulation Round 11 (Sim 58) audited README.md for accuracy against the current

@@ -22,9 +22,9 @@ Claude Code を使う場合は `CLAUDE.md` を参照。
 
 | パターン | 場所 | AIの操作 |
 |---|---|---|
-| A1 — ルール・制約 | `registry/lifecycles.yaml` `registry/workflows.yaml` `registry/schemas.yaml` `registry/capabilities.yaml` `registry/repository.yaml` `.pkmp/` `CLAUDE.md` `AGENTS.md` `README.md` | 読むだけ |
+| A1 — ルール・制約 | `registry/lifecycles.yaml` `registry/workflows.yaml` `registry/schemas.yaml` `registry/capabilities.yaml` `registry/repository.yaml` `.pkmp/` `CLAUDE.md` `AGENTS.md` | 読むだけ |
 | A2 — データレジストリ | `registry/documents.yaml` `registry/records.yaml` | 登録・状態更新のみ（削除不可） |
-| B — Canonical | `docs/*.yaml` `records/*.yaml` | 判断して作成・更新する |
+| B — Canonical | `docs/*.yaml` `records/*.yaml` `README.md` | 判断して作成・更新する |
 | C — Export/View | `views/**/*.md` | 生成するだけ。絶対に手動編集しない |
 | D — 人間からの入力 | `inbox/` | 読んで処理する。処理後は `inbox/processed/` へ移動 |
 | E — 追記専用 | `provenance/` | 追記のみ。既存内容を変更しない |

@@ -2,7 +2,7 @@ id: PI-011
 type: ResearchRecord
 title: "CLAUDE.md and AGENTS.md need pkmp-simulate added to skill trigger table"
 date: "2026-06-28"
-state: Draft
+state: Superseded
 
 context: |
   pkmp-simulate skill was created to enable loop-engineering simulation testing.

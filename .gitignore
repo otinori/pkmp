@@ -3,4 +3,5 @@ node_modules/
 *.local
 .env
 inbox/processed/
-.claude/
+.claude/*
+!.claude/skills

@@ -1,0 +1,11 @@
+{
+  "name": "pkmp",
+  "description": "PKMP — Project Knowledge Modeling Platform. Skills for AI-assisted knowledge management: capture decisions, record learnings, process requirements, and run self-improvement simulations.",
+  "version": "1.0.0",
+  "author": {
+    "name": "otinori"
+  },
+  "homepage": "https://github.com/otinori/pkmp",
+  "repository": "https://github.com/otinori/pkmp",
+  "license": "MIT"
+}
