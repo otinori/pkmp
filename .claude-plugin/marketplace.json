@@ -8,8 +8,8 @@
     {
       "name": "pkmp",
       "source": {
-        "source": "github",
-        "repo": "otinori/pkmp"
+        "source": "url",
+        "url": "https://github.com/otinori/pkmp.git"
       },
       "description": "PKMP skills: process-inbox, spec-assist, capture-decision, capture-learnings, regenerate, verify, init, apply-process-improvement, simulate",
       "homepage": "https://github.com/otinori/pkmp",
