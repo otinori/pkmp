@@ -14,13 +14,20 @@ Initialize a new project with PKMP structure.
 
 **Steps**
 
-0. **Verify PKMP runtime is present**
+0. **Ensure PKMP runtime is present**
 
    Check that `.pkmp/` exists in the repository root.
-   - Exists → proceed
-   - Not found → stop and inform the user:
-     "`.pkmp/` runtime not found. Install PKMP first by copying the `.pkmp/` directory
-     from the PKMP distribution into this repository, then re-run `/pkmp:init`."
+   - Exists → proceed to step 1
+   - Not found → download from GitHub and copy into the project:
+
+   ```bash
+   git clone --depth=1 https://github.com/otinori/pkmp.git /tmp/pkmp-download
+   cp -r /tmp/pkmp-download/.pkmp ./
+   cp -r /tmp/pkmp-download/dist ./
+   rm -rf /tmp/pkmp-download
+   ```
+
+   Confirm `.pkmp/` now exists before proceeding.
 
 1. **Gather project information**
 
