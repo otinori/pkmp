@@ -65,7 +65,7 @@ pkmp/
 claude plugin marketplace add https://github.com/otinori/pkmp
 
 # プラグインをインストール
-/plugin install pkmp@pkmp
+/plugin install pkmp@pkmp-marketplace
 ```
 
 インストール後は `/pkmp:<スキル名>` の形式でスキルを呼び出せます。
