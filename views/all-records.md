@@ -26,4 +26,5 @@
 | [LR-004](records/LR-004.md) | SDD-to-PKMP handoff depends on AI agent reading trigger table, not automatic hooks | LearningRecord | Published | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
 | [LR-005](records/LR-005.md) | Record views must read state from registry, not from canonical YAML state field | LearningRecord | Published | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
 | [LR-006](records/LR-006.md) | pkmp-init must instruct users to add trigger table to CLAUDE.md/AGENTS.md | LearningRecord | Published | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
+| [LR-007](records/LR-007.md) | pkmp-init bootstraps .pkmp/ runtime code but never installs its Node dependencies | LearningRecord | Published | 2026-06-29 | implementation-agent (claude-sonnet-4-6) |
 | [PI-011](records/PI-011.md) | CLAUDE.md and AGENTS.md need pkmp-simulate added to skill trigger table | ResearchRecord | Superseded | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |

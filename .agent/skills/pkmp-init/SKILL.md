@@ -29,6 +29,21 @@ Initialize a new project with PKMP structure.
 
    Confirm `.pkmp/` now exists before proceeding.
 
+   `.pkmp/bin/pkmp.js` (verify/regenerate) requires Node packages `yaml` and
+   `jsonschema` — it will fail with `ERR_MODULE_NOT_FOUND` without them. Copy
+   the runtime's `package.json` and `package-lock.json` from `dist/` into the
+   project root (do not overwrite if they already exist — merge `dependencies`
+   instead), then install:
+
+   ```bash
+   cp dist/package.json ./package.json   # or merge if one already exists
+   cp dist/package-lock.json ./package-lock.json
+   npm install
+   ```
+
+   Confirm `node .pkmp/bin/pkmp.js verify` runs without a module-resolution
+   error before proceeding to step 1.
+
 1. **Gather project information**
 
    Collect or confirm:
