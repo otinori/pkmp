@@ -25,7 +25,7 @@ YAML Canonical (docs/*.yaml, records/*.yaml)
 pkmp/
 ├── CLAUDE.md / AGENTS.md        ← AIへのブートインストラクション
 ├── dist/                        ← pkmp-init でコピーされる配布テンプレート
-│   ├── registry/                ← 空テンプレートのregistry
+│   ├── registry/                ← 配布用ビルトイン定義（lifecycle/workflow/schema/capability）
 │   └── inbox/
 │
 ├── .pkmp/                       ← PKMPツール（開発者向け）
@@ -33,7 +33,8 @@ pkmp/
 │   ├── lib/                     ← バリデータ・レンダラー実装
 │   └── schemas/                 ← スキーマ定義
 │
-├── .agent/skills/pkmp-*/        ← PKMPスキル定義（マーケットプレイス配布）
+├── skills/                      ← プラグイン用スキルエントリポイント（symlink）
+├── .agent/skills/pkmp-*/        ← PKMPスキル定義実体（AgentSkills標準ロケーション）
 │
 ├── registry/                    ← リポジトリ自己記述メタデータ（唯一の入口）
 │   ├── documents.yaml           ← ドキュメント一覧
@@ -49,16 +50,37 @@ pkmp/
 ├── views/                       ← 生成ビュー（編集不可）
 │   ├── docs/                    ← ドキュメントのMarkdownビュー
 │   ├── records/                 ← レコードのMarkdownビュー
-│   └── all-decision-records.md  ← Decision Recordインデックス
+│   └── all-records.md           ← 全レコードインデックス
 │
 ├── inbox/                       ← 人間→AIへの入力（要件・承認等）
 └── provenance/                  ← 源泉ドキュメント（追記のみ）
 ```
 
-## クイックスタート
+## インストール
+
+### Claude Code プラグインとして（推奨）
 
 ```bash
-# 新規プロジェクトへのセットアップ（Claude Codeで実行）
+# マーケットプレイスを登録（初回1回）
+claude plugin marketplace add https://github.com/otinori/pkmp
+
+# プラグインをインストール
+/plugin install pkmp@pkmp
+```
+
+インストール後は `/pkmp:<スキル名>` の形式でスキルを呼び出せます。
+
+### 手動セットアップ
+
+1. `.pkmp/` ディレクトリをターゲットリポジトリにコピー
+2. `dist/` の内容をターゲットリポジトリのルートにコピー
+3. `.agent/skills/pkmp-*/` をコピーしてスキルを配置
+4. Claude Code で `/pkmp:init` を実行し、プロジェクト情報を入力
+
+## クイックスタート
+
+```
+# 新規プロジェクトへのセットアップ
 /pkmp:init
 
 # リポジトリ全体を検証
@@ -78,15 +100,17 @@ node .pkmp/bin/pkmp.js regenerate
 
 ## スキル一覧
 
-| スキル | トリガー |
+| スキル（プラグイン形式） | トリガー |
 |---|---|
-| `pkmp-init` | 新規プロジェクトにセットアップ |
-| `pkmp-verify` | コミット前・整合性確認 |
-| `pkmp-regenerate` | Canonical YAML変更後 |
-| `pkmp-process-inbox` | `inbox/` にファイルが来たとき |
-| `pkmp-spec-assist` | SDD作業前にSPEC作成 |
-| `pkmp-capture-decision` | 設計判断が生まれたとき |
-| `pkmp-capture-learnings` | SDD Changeアーカイブ後 |
+| `/pkmp:init` | 新規プロジェクトにセットアップ |
+| `/pkmp:verify` | コミット前・整合性確認 |
+| `/pkmp:regenerate` | Canonical YAML変更後 |
+| `/pkmp:process-inbox` | `inbox/` にファイルが来たとき |
+| `/pkmp:spec-assist` | SDD作業前にSPEC作成 |
+| `/pkmp:capture-decision` | 設計判断が生まれたとき |
+| `/pkmp:capture-learnings` | SDD Changeアーカイブ後 |
+| `/pkmp:apply-process-improvement` | 承認済みのPIレコードがあるとき |
+| `/pkmp:simulate` | PKMPのスキル品質を自律的に改善したいとき |
 
 ## エコシステム
 

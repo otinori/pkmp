@@ -2,7 +2,7 @@ id: PI-009
 type: ResearchRecord
 title: "CLAUDE.md registry/ access rule needs split into data vs config/rule files"
 date: "2026-06-28"
-state: Draft
+state: Superseded
 
 context: |
   Simulation Round 10 (Sim 54) found that CLAUDE.md Pattern A declares registry/

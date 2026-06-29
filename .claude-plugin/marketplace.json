@@ -1,0 +1,19 @@
+{
+  "name": "pkmp",
+  "description": "PKMP — Project Knowledge Modeling Platform",
+  "owner": {
+    "name": "otinori"
+  },
+  "plugins": [
+    {
+      "name": "pkmp",
+      "source": {
+        "source": "github",
+        "repo": "otinori/pkmp"
+      },
+      "description": "PKMP skills: process-inbox, spec-assist, capture-decision, capture-learnings, regenerate, verify, init, apply-process-improvement, simulate",
+      "homepage": "https://github.com/otinori/pkmp",
+      "license": "MIT"
+    }
+  ]
+}

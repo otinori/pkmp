@@ -21,9 +21,9 @@
 | [LR-002](records/LR-002.md) | dist/ registry files must be pre-populated with built-in definitions | LearningRecord | Published | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
 | [PI-008](records/PI-008.md) | Record schema should not require decision/rationale for non-DecisionRecord types | ResearchRecord | Superseded | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
 | [LR-003](records/LR-003.md) | CLAUDE.md registry/ access rule conflates files with different write permissions | LearningRecord | Published | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
-| [PI-009](records/PI-009.md) | CLAUDE.md registry/ access rule needs split into data vs config/rule files | ResearchRecord | Draft | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
-| [PI-010](records/PI-010.md) | README.md has stale directory tree and missing installation instructions | ResearchRecord | Draft | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
+| [PI-009](records/PI-009.md) | CLAUDE.md registry/ access rule needs split into data vs config/rule files | ResearchRecord | Superseded | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
+| [PI-010](records/PI-010.md) | README.md has stale directory tree and missing installation instructions | ResearchRecord | Superseded | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
 | [LR-004](records/LR-004.md) | SDD-to-PKMP handoff depends on AI agent reading trigger table, not automatic hooks | LearningRecord | Published | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
 | [LR-005](records/LR-005.md) | Record views must read state from registry, not from canonical YAML state field | LearningRecord | Published | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
 | [LR-006](records/LR-006.md) | pkmp-init must instruct users to add trigger table to CLAUDE.md/AGENTS.md | LearningRecord | Published | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
-| [PI-011](records/PI-011.md) | CLAUDE.md and AGENTS.md need pkmp-simulate added to skill trigger table | ResearchRecord | Draft | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
+| [PI-011](records/PI-011.md) | CLAUDE.md and AGENTS.md need pkmp-simulate added to skill trigger table | ResearchRecord | Superseded | 2026-06-28T00:00:00Z | implementation-agent (claude-sonnet-4-6) |
