@@ -83,8 +83,13 @@ Create `records/LR-<NNN>.yaml` for each significant finding, even if no fix was 
 Register with `state: Published`.
 Use `source_change: simulation-round-<N>` where N is the current round number.
 
-Determine the round number by counting how many LR/PI records have
-`source_change` starting with `simulation-round-` in `registry/records.yaml`, then add 1.
+Determine the round number by scanning `records/*.yaml` for every occurrence of the
+pattern `round-(\d+)` (in `source_change` or `provenance.source` fields — historical
+records use both conventions inconsistently) and taking the highest `N` found, then add 1.
+Do not count matching records: round history predates consistent field naming, so a
+record count undercounts the true round number and risks colliding with an already-used
+round (verified: as of round 35, counting records with `source_change: simulation-round-*`
+yields only 6, far below the true value).
 
 ### 6. Commit
 

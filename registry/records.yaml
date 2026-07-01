@@ -139,3 +139,17 @@ records:
     canonical: records/PI-011.yaml
     views:
       - views/records/PI-011.md
+  - id: LR-008
+    type: LearningRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Published
+    canonical: records/LR-008.yaml
+    views:
+      - views/records/LR-008.md
+  - id: PI-012
+    type: ResearchRecord
+    schema: .pkmp/schemas/record.schema.yaml
+    state: Draft
+    canonical: records/PI-012.yaml
+    views:
+      - views/records/PI-012.md

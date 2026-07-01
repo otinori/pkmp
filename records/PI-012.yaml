@@ -1,0 +1,70 @@
+id: PI-012
+type: ResearchRecord
+title: "renderDocument never shows lifecycle state, unlike renderRecord (LR-005 gap extends to Documents)"
+date: "2026-07-01"
+
+context: |
+  LR-005 / PI (round 15) fixed `renderRecord` in `.pkmp/lib/renderers/markdown.js`
+  to accept a `registryState` parameter and show it in the record view's Metadata
+  table, because the canonical YAML's own `state` field is optional and can go
+  stale relative to the registry (the single source of truth for state).
+
+  The same fix was never extended to `renderDocument`. Reading the current code:
+  - `renderDocument(model)` takes no state parameter at all and never renders a
+    State row in its Metadata table (only ID, Source, Authored By, Authored At).
+  - `renderModelFile` only passes `registryState` through on the Record branch
+    (`if (model.type && model.type.endsWith('Record')) { renderRecord(model, registryState) }
+    else { renderDocument(model) }` — the `else` branch drops it entirely).
+  - `pkmp.js`'s Document-rendering loop in `runRegenerate()` calls
+    `renderModelFile(yamlPath, viewPath)` with no third argument, unlike the
+    Record loop which passes `rec.state`.
+  - Confirmed on disk: `views/docs/pkmp-charter.md` and `views/docs/pkmp-design-v1.md`
+    (both currently `state: Draft` in `registry/documents.yaml`) show no state
+    anywhere in their rendered Metadata table.
+
+  This gap is arguably more consequential for Documents than it was for Records:
+  the Spec lifecycle (Draft → Reviewed → Approved → Implemented) and Document
+  lifecycle (Draft → InReview → Published → Archived) are both explicitly
+  human-approval-gated (per `registry/lifecycles.yaml` and CLAUDE.md), so the
+  view — the human-facing surface used during review — is exactly where state
+  visibility matters most, yet it is silently absent.
+
+  Separately, `renderIndexFiles` only generates `views/all-records.md`; there is
+  no equivalent `views/all-documents.md` cross-cutting index, so there is also no
+  single place to see every Document/Spec and its current state at a glance.
+
+decision: |
+  Three changes to `.pkmp/lib/renderers/markdown.js` and `.pkmp/bin/pkmp.js`,
+  mirroring the round-15 fix for records:
+
+  1. `renderDocument(model, registryState)` — add the parameter and render a
+     `| State | ${registryState} |` row in the Metadata table when provided,
+     matching `renderRecord`'s existing pattern.
+  2. `renderModelFile` — pass `registryState` through on the Document branch too
+     (drop the asymmetry between the `if`/`else` branches).
+  3. `pkmp.js`'s Document-rendering loop in `runRegenerate()` — pass `doc.state`
+     as the third argument, matching the Record loop.
+  4. Add a `views/all-documents.md` index (new function alongside
+     `renderIndexFiles`, or extend it) listing every registered Document/Spec
+     with its id, title, lifecycle, state, and a link to its view — analogous to
+     `views/all-records.md`.
+
+rationale: |
+  Registry is the single source of truth for state (established by LR-005);
+  Documents should follow the identical rule Records already follow, for the
+  identical reason. Leaving this asymmetric means the artifact type with the
+  strictest human-approval gating (Spec: Approved requires Human) is the one
+  where state is least visible in its own view.
+
+implications:
+  - "applies_to: pkmp-self"
+  - "Target: .pkmp/lib/renderers/markdown.js, .pkmp/bin/pkmp.js"
+  - "Requires: human approval (code change in .pkmp/)"
+  - "No canonical YAML or schema changes needed — state already lives in registry/documents.yaml"
+
+provenance:
+  source: simulation/round-36-document-state-visibility-gap
+  authored_by:
+    role: implementation-agent
+    identifier: claude-sonnet-4-6
+  authored_at: "2026-07-01T00:00:00Z"
